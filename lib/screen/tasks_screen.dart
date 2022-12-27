@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoey/widgets/tasks_list.dart';
 import 'add_tasks_screen.dart';
+import 'package:todoey/models/tasks.dart';
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
@@ -12,7 +13,14 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
+  List<Task> task = [
+    Task(name: 'Buy Flour'),
+    Task(name: 'Buy Butter'),
+    Task(name: 'Buy eggs')
+  ];
+
   bool checkedTask = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,7 +30,14 @@ class _TasksScreenState extends State<TasksScreen> {
           onPressed: (() {
             showModalBottomSheet(
                 context: context,
-                builder: ((context) => AddTaskScreen()),
+                builder: ((context) => AddTaskScreen(
+                      addTaskCallback: (newTaskTitle) {
+                        setState(() {
+                          task.add(Task(name: newTaskTitle!.text));
+                        });
+                        Navigator.pop(context);
+                      },
+                    )),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(20),
@@ -58,7 +73,7 @@ class _TasksScreenState extends State<TasksScreen> {
                         fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    '12 Tasks',
+                    '${task.length} Tasks',
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ],
@@ -76,7 +91,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       topRight: Radius.circular(20)),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                child: TasksList(),
+                child: TasksList(task),
               ),
             ),
           ],

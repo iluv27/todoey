@@ -1,15 +1,18 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, must_be_immutable, avoid_print, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:todoey/models/tasks.dart';
 
-class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
+class AddTaskScreen extends StatelessWidget {
+  AddTaskScreen({
+    this.addTaskCallback,
+    super.key,
+  });
 
-  @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
-}
+  Function(TextEditingController?)? addTaskCallback;
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
+  TextEditingController newTaskTitle = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,9 +34,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ),
           ),
           TextField(
+            controller: newTaskTitle,
             decoration: InputDecoration(helperText: 'Add todo here'),
             onSubmitted: (value) {
-              print(value);
+              newTaskTitle.text = value;
             },
           ),
           SizedBox(
@@ -41,7 +45,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           ),
           ElevatedButton(
             autofocus: true,
-            onPressed: (() {}),
+            onPressed: (() {
+              addTaskCallback!(newTaskTitle);
+            }),
             style: ButtonStyle(
               padding: MaterialStateProperty.all(EdgeInsets.all(15)),
               backgroundColor:
@@ -49,7 +55,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ),
             child: Text(
               'Add',
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 18, color: Colors.white),
             ),
           )
         ],

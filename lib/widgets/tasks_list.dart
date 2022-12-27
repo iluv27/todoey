@@ -1,42 +1,36 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
 import 'package:todoey/widgets/tasks_tile.dart';
 import 'package:todoey/models/tasks.dart';
 
 class TasksList extends StatefulWidget {
-  const TasksList({
-    Key? key,
-  }) : super(key: key);
+  TasksList(
+    this.task,
+  );
+
+  List<Task> task;
 
   @override
   State<TasksList> createState() => _TasksListState();
 }
 
-List<Task> task = [
-  Task(name: 'Buy Flour'),
-  Task(name: 'Buy Butter'),
-  Task(name: 'Buy eggs')
-];
-
 class _TasksListState extends State<TasksList> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <TaskTile>[
-        TaskTile(
-          taskTitle: task[0].name,
-          isChecked: task[0].isDone,
-        ),
-        TaskTile(
-          taskTitle: task[1].name,
-          isChecked: task[1].isDone,
-        ),
-        TaskTile(
-          taskTitle: task[2].name,
-          isChecked: task[2].isDone,
-        ),
-      ],
+    return ListView.builder(
+      itemBuilder: ((context, index) {
+        return TaskTile(
+          taskTitle: widget.task[index].name,
+          isChecked: widget.task[index].isDone,
+          toggleCheckBoxState: (bool? value) {
+            setState(() {
+              widget.task[index].toggleDone();
+            });
+          },
+        );
+      }),
+      itemCount: widget.task.length,
     );
   }
 }

@@ -3,11 +3,16 @@
 import 'package:flutter/material.dart';
 
 class TaskTile extends StatelessWidget {
-  TaskTile({Key? key, required this.taskTitle, this.isChecked})
+  TaskTile(
+      {Key? key,
+      required this.taskTitle,
+      this.isChecked,
+      this.toggleCheckBoxState})
       : super(key: key);
 
   bool? isChecked;
   String taskTitle;
+  Function(bool?)? toggleCheckBoxState;
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +24,10 @@ class TaskTile extends StatelessWidget {
               : TextStyle(decoration: TextDecoration.none),
         ),
         trailing: Checkbox(
-          onChanged: (value) {},
+          activeColor: Colors.lightBlueAccent,
+          onChanged: toggleCheckBoxState,
           tristate: false,
           value: isChecked,
-          // onChanged: toggleCheckBoxState,
         ));
   }
 }
-
-  // void checkBoxState(bool? value) {
-  //   setState(() {
-  //     isChecked = value;
-  //   });
-  // }
