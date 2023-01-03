@@ -25,14 +25,7 @@ class _TasksScreenState extends State<TasksScreen> {
           onPressed: (() {
             showModalBottomSheet(
                 context: context,
-                builder: ((context) => AddTaskScreen(
-                      addTaskCallback: (newTaskTitle) {
-                        // setState(() {
-                        //   Provider.of<TaskData>(context)task.add(Task(name: newTaskTitle!.text));
-                        // });
-                        Navigator.pop(context);
-                      },
-                    )),
+                builder: ((context) => AddTaskScreen()),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(20),
@@ -68,7 +61,7 @@ class _TasksScreenState extends State<TasksScreen> {
                         fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    '${Provider.of<TaskData>(context).task.length} Tasks',
+                    '${Provider.of<TaskData>(context).taskCount} Tasks',
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ],
